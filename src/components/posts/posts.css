@@ -14,13 +14,52 @@
   position: relative;
 }
 
-.posts .post p, .posts .input p {
+.posts .post .text, .posts .input .text {
   position: absolute;
   top: 5%;
   left: 10%;
-  right: 10%;
+  right: 20%;
   background: pink;
   font-size: 1.25rem;
+}
+
+.posts .post .likes, .posts .input .likes {
+  position: absolute;
+  display: block;
+  bottom: 10%;
+  right: 15%;
+  background-color: yellow;
+  font-size: 1rem;
+  margin: 0;
+  padding: 5px;
+}
+
+.posts .post .diff, .posts .input .diff {
+  position: absolute;
+  top: -10%;
+  right: 5%;
+}
+
+.posts .post .like, .posts .input .like, .posts .post .dislike, .posts .input .dislike {
+  position: absolute;
+  display: block;
+  color: green;
+  font-size: 1rem;
+  right: 20%;
+  bottom: 10%;
+  border: none;
+  background: yellow;
+  padding: 5px;
+  margin: 0;
+}
+
+.posts .post .like:hover, .posts .input .like:hover, .posts .post .dislike:hover, .posts .input .dislike:hover {
+  cursor: pointer;
+}
+
+.posts .post .dislike, .posts .input .dislike {
+  color: red;
+  right: 10%;
 }
 
 .posts .input input {
