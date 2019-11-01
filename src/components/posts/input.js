@@ -14,11 +14,17 @@ class Input extends React.Component {
     //console.log(this.state.inputText);
   }
 
+  post = (text) => {
+    this.props.post(text);
+    this.setState({inputText: ''});
+    this.refs.input.value = '';
+  }
+
   render(){
     return(
       <div className="input">
-        <input type="text" name="post" id="post" className="inputText" onChange={this.updatePost} />
-        <button className="inputBtn" onClick={() => this.props.post(this.state.inputText)} >Post</button>
+        <input type="text" name="post" ref="input" id="post" className="inputText" onChange={this.updatePost} />
+        <button className="inputBtn" onClick={() => this.post(this.state.inputText)} >Post</button>
       </div>
     )
   };

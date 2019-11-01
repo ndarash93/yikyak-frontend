@@ -9,18 +9,14 @@ import Cookie from 'universal-cookie';
 
 const cookie = new Cookie();
 
-//cookies.set('myCat', 'Pacman', { path: '/' });
-//console.log(cookies.get('myCat'));
-
 class App extends React.Component {
   constructor(){
     super();
     this.state = {
       posts: [],
-      user: null,
+      user: {},
       general: {
-        domain: 'http://192.168.0.31',
-        port: '27817',
+        domain: 'http://192.168.0.31:27817',
         jwt: null
       }
     }
@@ -29,7 +25,7 @@ class App extends React.Component {
   componentDidMount(){
     if(!this.state.general.jwt){
       if(!cookie.get('jwt')){
-        axios.post('http://192.168.0.31:27817/api/auth', {
+        axios.post(`${this.state.general.domain}/api/auth`, {
           email: 'nickdarash@gmail.com',
           password: 'pepsi1'
         }).then((res) => {
@@ -50,15 +46,47 @@ class App extends React.Component {
     }
   }
 
-  componentDidUpdate(){
-    
+  getLikedPosts = (oldestPost) => {
+    axios.post(`${this.state.general.domain}/api/private/profile/liked`,
+    {
+      timeStamp: oldestPost.timeStamp
+    },
+    {
+      headers: {
+        jwt: this.state.general.jwt
+      },
+    })
+    .then((res) => {
+      this.setState({user: {...this.state.user, likedPosts: res.data}})
+    })
+    .catch((err) => {
+      if(err) throw err;
+    });
+  }
+
+  getDislikedPosts = (oldestPost) => {
+    axios.post(`${this.state.general.domain}/api/private/profile/disliked`,
+    {
+      timeStamp: oldestPost.timeStamp
+    },
+    {
+      headers: {
+        jwt: this.state.general.jwt
+      },
+    })
+    .then((res) => {
+      this.setState({user: {...this.state.user, dislikedPosts: res.data}})
+    })
+    .catch((err) => {
+      if(err) throw err;
+    });
   }
 
   render(){
     return(
       <div className="App">
         <Navbar name="YikYak" general={this.state.general} />
-        <Post posts={this.state.posts} general={this.state.general} />
+        <Post posts={this.state.posts} general={this.state.general} getLikedPosts={this.getLikedPosts} getDislikedPosts={this.getDislikedPosts} />
       </div>
     )
   };
